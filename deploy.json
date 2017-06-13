@@ -1,0 +1,34 @@
+{
+    "machine": {
+        "host": "$host",
+        "username": "$username",
+        "password": "$password"
+    },
+    "commands": [
+        "sudo apt-get update",
+        "curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -",
+        "sudo apt-get install -y nodejs",
+
+        "npm --prefix /opt/content-predictor-service install",
+        "docker stop content-predictor-service",
+        "docker rm content-predictor-service",
+        "docker build --no-cache -t content-predictor-service /docker-uploads/content-predictor-service",
+        "docker run -d -p 8080:3000 --name content-predictor-service -v /logs:/logs -v /opt/content-predictor-service:/opt/content-predictor-service -t content-predictor-service"
+    ],
+    "directories": [
+        {
+            "source": "$workspace/src",
+            "destination": "/opt/content-predictor-service/src"
+        }
+    ],
+    "files": [
+        {
+            "source": "$workspace/package.json",
+            "destination": "/opt/content-predictor-service/package.json"
+        },
+        {
+            "source": "$workspace/Dockerfile",
+            "destination": "/docker-uploads/content-predictor-service/Dockerfile"
+        }
+    ]
+}
