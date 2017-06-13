@@ -9,7 +9,7 @@ import bodyParser = require('body-parser');
 import expressWinston = require('express-winston');
 
 // Imports routes
-import { HelloRouter } from './routes/hello';
+import { PredictorRouter } from './routes/predictor';
 
 // Imports logger
 import { logger } from './logger';
@@ -62,7 +62,8 @@ export class ContentPredictorServiceApi {
     }
 
     private configureRoutes(app: express.Express) {
-        app.use(`/api/hello`, HelloRouter.world);
+        app.post(`/predictor/train`, PredictorRouter.train);
+        app.post(`/predictor/predict`, PredictorRouter.predict);
     }
 
     private configureErrorHandling(app: express.Express) {

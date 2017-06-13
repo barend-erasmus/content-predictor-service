@@ -12,21 +12,20 @@ import { DataRepository } from './../repositories/data';
 // Imports services
 import { PredictorService } from './../services/predictor';
 
-export class HelloRouter {
+export class PredictorRouter {
 
-    public static world(req: Request, res: Response, next: () => void) {
+    public static train(req: Request, res: Response, next: () => void) {
         const dataRepository: DataRepository = new DataRepository();
         const predictorService = new PredictorService(dataRepository);
 
-        predictorService.calculatePerdiction('123', predictorService.toWords(fs.readFileSync('./documents/disliked.html', 'utf-8')))
-        .then((result) => {
-            console.log(result)
-            res.send('world');
-        })
+        res.send('training...');
+    }
 
-        
+    public static predict(req: Request, res: Response, next: () => void) {
+        const dataRepository: DataRepository = new DataRepository();
+        const predictorService = new PredictorService(dataRepository);
 
-
+        res.send('predicting...');
     }
 
 }
