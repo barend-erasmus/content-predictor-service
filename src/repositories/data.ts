@@ -10,25 +10,25 @@ export class DataRepository {
 
     public find(id: string): Promise<Entity> {
         return new Promise((resolve, reject) => {
-            resolve(store('app', {
-                cwd: './db'
-            }).get('entity'));
+            resolve(this.getStore(id).get('entity'));
         });
     }
 
     public insert(entity: Entity): Promise<boolean> {
         return new Promise((resolve, reject) => {
-            resolve(store('app', {
-                cwd: './db'
-            }).set('entity', entity));
+            resolve(this.getStore(entity.id).set('entity', entity));
         });
     }
 
     public save(entity: Entity): Promise<boolean> {
         return new Promise((resolve, reject) => {
-            resolve(store('app', {
-                cwd: './db'
-            }).set('entity', entity));
+            resolve(this.getStore(entity.id).set('entity', entity));
+        });
+    }
+
+    private getStore(id: string): any {
+        return store(`entity-${id}`, {
+            cwd: './db'
         });
     }
 
