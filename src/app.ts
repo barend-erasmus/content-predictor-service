@@ -62,8 +62,8 @@ export class ContentPredictorServiceApi {
     }
 
     private configureRoutes(app: express.Express) {
-        app.post(`/predictor/train`, PredictorRouter.train);
-        app.post(`/predictor/predict`, PredictorRouter.predict);
+        app.post(`/api/predictor/train`, PredictorRouter.train);
+        app.post(`/api/predictor/predict`, PredictorRouter.predict);
     }
 
     private configureErrorHandling(app: express.Express) {
