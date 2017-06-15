@@ -106,7 +106,7 @@ co(function* () {
 <p>Euromonitor International believes that the business deals between Russian manufacturers and international players will continue to rise in the short to medium term. Through such collaboration they may form a strong force in the long term in the CIS region to compete against multinationals such as Nestlé, Unilever and Kraft. Multinationals may need, therefore, to speed up their penetration in the region rather than risk missing out.</p>
 <h4>Hope Lee, Non-Alcoholic Drinks Company Analyst, hope.lee@euromonitor.com </h4>`;
 
-    const result: boolean = yield predictorService.calculatePerdiction('40335', predictorService.toWords(hotDrinksHtml));
+    const result: boolean = yield predictorService.moreLikelyToBeLiked('40335', predictorService.toWords(hotDrinksHtml));
 
     console.log(result? 'liked' : 'disliked');
 });

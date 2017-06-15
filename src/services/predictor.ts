@@ -61,7 +61,7 @@ export class PredictorService {
         return result;
     }
 
-    public calculatePerdiction(id: string, words: Word[]): Promise<true> {
+    public moreLikelyToBeLiked(id: string, words: Word[]): Promise<true> {
         const self = this;
         return co(function* () {
             const entity: Entity = yield self.dataRepository.find(id);
@@ -70,6 +70,17 @@ export class PredictorService {
                 return words.indexOf(item) === pos;
             });
 
+            // console.log(entity);
+
+
+            if (!entity) {
+                return true;
+            }
+
+            const likedAccuracy = entity.numberOfCorrectLikedPredictions / (entity.numberOfCorrectLikedPredictions + entity.numberOfCorrectDislikedPredictions);
+            const dislikedAccuracy = entity.numberOfCorrectDislikedPredictions / (entity.numberOfCorrectLikedPredictions + entity.numberOfCorrectDislikedPredictions);
+
+            console.log(`${likedAccuracy} / ${dislikedAccuracy}`);
 
             // Liked
             let chanceBeingLiked = 1;
@@ -135,12 +146,18 @@ export class PredictorService {
     public addLikedDocument(id: string, html: string): Promise<boolean> {
         const self = this;
         return co(function* () {
+
+            const moreLikelyToBeLikedResult: boolean = yield self.moreLikelyToBeLiked(id, self.toWords(html));
+
             const entity: Entity = yield self.dataRepository.find(id);
 
             if (!entity) {
-                const result = yield self.dataRepository.save(new Entity(id, self.toWords(html), []));
+                const result = yield self.dataRepository.save(new Entity(id, self.toWords(html), [], moreLikelyToBeLikedResult ? 1 : 0, !moreLikelyToBeLikedResult ? 1 : 0));
                 return result;
             } else {
+
+                entity.numberOfCorrectLikedPredictions += moreLikelyToBeLikedResult ? 1 : 0;
+                entity.numberOfCorrectDislikedPredictions += !moreLikelyToBeLikedResult ? 1 : 0;
 
                 entity.likedWords = self.joinWords(entity.likedWords, self.toWords(html));
 
@@ -153,12 +170,18 @@ export class PredictorService {
     public addDislikedDocument(id: string, html: string): Promise<boolean> {
         const self = this;
         return co(function* () {
+
+            const moreLikelyToBeLikedResult: boolean = yield self.moreLikelyToBeLiked(id, self.toWords(html));
+
             const entity: Entity = yield self.dataRepository.find(id);
 
             if (!entity) {
-                const result = yield self.dataRepository.save(new Entity(id, [], self.toWords(html)));
+                const result = yield self.dataRepository.save(new Entity(id, self.toWords(html), [], moreLikelyToBeLikedResult ? 1 : 0, !moreLikelyToBeLikedResult ? 1 : 0));
                 return result;
             } else {
+
+                entity.numberOfCorrectLikedPredictions += moreLikelyToBeLikedResult ? 1 : 0;
+                entity.numberOfCorrectDislikedPredictions += !moreLikelyToBeLikedResult ? 1 : 0;
 
                 entity.dislikedWords = self.joinWords(entity.dislikedWords, self.toWords(html));
 

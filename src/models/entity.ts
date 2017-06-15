@@ -2,7 +2,7 @@
 import { Word } from './word';
 
 export class Entity {
-    constructor(public id: string, public likedWords: Word[], public dislikedWords: Word[]) {
+    constructor(public id: string, public likedWords: Word[], public dislikedWords: Word[], public numberOfCorrectLikedPredictions: number, public numberOfCorrectDislikedPredictions: number) {
 
     }
 }

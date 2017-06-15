@@ -38,7 +38,7 @@ export class PredictorRouter {
 
             const words: Word[] = predictorService.toWords(req.body.html);
 
-            const result: boolean = yield predictorService.calculatePerdiction(req.body.id, words);
+            const result: boolean = yield predictorService.moreLikelyToBeLiked(req.body.id, words);
 
             res.send(result ? 'like' : 'dislike');
         });
