@@ -8,7 +8,7 @@ import * as sinon from 'sinon';
 import { PredictorService } from './predictor';
 
 // Imports repositories
-// import { MockConsumerRepository } from './../repositories/mock/consumer';
+import { EntityRepository } from './../repositories/mock/entity';
 
 // Imports domain models
 import { Entity } from './../models/entity';

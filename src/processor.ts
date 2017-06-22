@@ -5,7 +5,7 @@ import * as co from 'co';
 import * as fs from 'fs';
 
 // Imports repositories
-import { DataRepository } from './repositories/data';
+import { EntityRepository } from './repositories/json/entity';
 
 // Imports services
 import { PredictorService } from './services/predictor';
@@ -33,8 +33,8 @@ import { PredictorService } from './services/predictor';
 
 co(function* () {
 
-    const dataRepository: DataRepository = new DataRepository();
-    const predictorService = new PredictorService(dataRepository);
+    const entityRepository: EntityRepository = new EntityRepository();
+    const predictorService = new PredictorService(entityRepository);
 
     const beerHtml = `<p>Brewers are launching mid-strength extensions of major beer brands. Not only do these appeal to consumers, offering the taste of a full-strength lager but with a lower-alcohol content, but they are also more profitable for brewers which pay less tax on lower-alcohol products.</p>
 <div class="jump_break" contenteditable="false" unselectable="on"></div>

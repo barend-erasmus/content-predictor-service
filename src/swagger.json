@@ -1,0 +1,123 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "",
+    "version": "1.0.0",
+    "title": "Content Predictor Service",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "developersworkspace@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "192.168.46.112",
+  "basePath": "/contentpredictorservice/api",
+  "tags": [
+    {
+      "name": "predictor",
+      "description": ""
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/predictor/train": {
+      "post": {
+        "tags": [
+          "predictor"
+        ],
+        "summary": "",
+        "description": "",
+        "operationId": "predictortrain",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/train_request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid type"
+          }
+        }
+      }
+    },
+    "/predictor/predict": {
+      "post": {
+        "tags": [
+          "predictor"
+        ],
+        "summary": "",
+        "description": "",
+        "operationId": "predictorpredict",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/predict_request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "train_request": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "html": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "predict_request": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "html": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

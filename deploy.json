@@ -13,7 +13,7 @@
         "docker stop content-predictor-service",
         "docker rm content-predictor-service",
         "docker build --no-cache -t content-predictor-service /docker-uploads/content-predictor-service",
-        "docker run -d -p 8080:3000 --name content-predictor-service -v /logs:/logs -v /opt/content-predictor-service:/opt/content-predictor-service -t content-predictor-service"
+        "docker run -d -p 8081:3000 --name content-predictor-service -v /logs:/logs -v /opt/content-predictor-service:/opt/content-predictor-service -t content-predictor-service"
     ],
     "directories": [
         {

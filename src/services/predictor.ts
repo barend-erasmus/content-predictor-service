@@ -7,11 +7,11 @@ import { Entity } from './../models/entity';
 import { Word } from './../models/word';
 
 // Imports repositories
-import { DataRepository } from './../repositories/data';
+import { IEntityRepository } from './../repositories/entity';
 
 export class PredictorService {
 
-    constructor(private dataRepository: DataRepository) {
+    constructor(private entityRepository: IEntityRepository) {
 
     }
 
@@ -64,7 +64,7 @@ export class PredictorService {
     public moreLikelyToBeLiked(id: string, words: Word[]): Promise<true> {
         const self = this;
         return co(function* () {
-            const entity: Entity = yield self.dataRepository.find(id);
+            const entity: Entity = yield self.entityRepository.find(id);
 
             const uniqueWords: Word[] = words.filter((item: Word, pos: number) => {
                 return words.indexOf(item) === pos;
@@ -149,10 +149,10 @@ export class PredictorService {
 
             const moreLikelyToBeLikedResult: boolean = yield self.moreLikelyToBeLiked(id, self.toWords(html));
 
-            const entity: Entity = yield self.dataRepository.find(id);
+            const entity: Entity = yield self.entityRepository.find(id);
 
             if (!entity) {
-                const result = yield self.dataRepository.save(new Entity(id, self.toWords(html), [], moreLikelyToBeLikedResult ? 1 : 0, !moreLikelyToBeLikedResult ? 1 : 0));
+                const result = yield self.entityRepository.save(new Entity(id, self.toWords(html), [], moreLikelyToBeLikedResult ? 1 : 0, !moreLikelyToBeLikedResult ? 1 : 0));
                 return result;
             } else {
 
@@ -161,7 +161,7 @@ export class PredictorService {
 
                 entity.likedWords = self.joinWords(entity.likedWords, self.toWords(html));
 
-                const result = yield self.dataRepository.save(entity);
+                const result = yield self.entityRepository.save(entity);
                 return result;
             }
         });
@@ -173,10 +173,10 @@ export class PredictorService {
 
             const moreLikelyToBeLikedResult: boolean = yield self.moreLikelyToBeLiked(id, self.toWords(html));
 
-            const entity: Entity = yield self.dataRepository.find(id);
+            const entity: Entity = yield self.entityRepository.find(id);
 
             if (!entity) {
-                const result = yield self.dataRepository.save(new Entity(id, self.toWords(html), [], moreLikelyToBeLikedResult ? 1 : 0, !moreLikelyToBeLikedResult ? 1 : 0));
+                const result = yield self.entityRepository.save(new Entity(id, self.toWords(html), [], moreLikelyToBeLikedResult ? 1 : 0, !moreLikelyToBeLikedResult ? 1 : 0));
                 return result;
             } else {
 
@@ -185,7 +185,7 @@ export class PredictorService {
 
                 entity.dislikedWords = self.joinWords(entity.dislikedWords, self.toWords(html));
 
-                const result = yield self.dataRepository.save(entity);
+                const result = yield self.entityRepository.save(entity);
                 return result;
             }
         });

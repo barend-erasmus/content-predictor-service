@@ -7,7 +7,7 @@ import * as co from 'co';
 import { Word } from './../models/word';
 
 // Imports repositories
-import { DataRepository } from './../repositories/data';
+import { EntityRepository } from './../repositories/json/entity';
 
 // Imports services
 import { PredictorService } from './../services/predictor';
@@ -16,15 +16,15 @@ export class PredictorRouter {
 
     public static train(req: Request, res: Response, next: () => void) {
         co(function* () {
-            const dataRepository: DataRepository = new DataRepository();
-            const predictorService = new PredictorService(dataRepository);
+            const entityRepository: EntityRepository = new EntityRepository();
+            const predictorService = new PredictorService(entityRepository);
 
             if (req.body.type === 'liked') {
                 yield predictorService.addLikedDocument(req.body.id, req.body.html);
             } else if (req.body.type === 'disliked') {
                 yield predictorService.addDislikedDocument(req.body.id, req.body.html);
             } else {
-                throw new Error('invalid type');
+                res.status(400).send('Invalid Type');
             }
 
             res.send('OK');
@@ -33,8 +33,8 @@ export class PredictorRouter {
 
     public static predict(req: Request, res: Response, next: () => void) {
         co(function* () {
-            const dataRepository: DataRepository = new DataRepository();
-            const predictorService = new PredictorService(dataRepository);
+            const entityRepository: EntityRepository = new EntityRepository();
+            const predictorService = new PredictorService(entityRepository);
 
             const words: Word[] = predictorService.toWords(req.body.html);
 

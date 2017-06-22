@@ -2,11 +2,14 @@
 import * as co from 'co';
 import * as store from 'data-store';
 
+// Imports interfaces
+import { IEntityRepository } from './../entity';
+ 
 // Imports models
-import { Word } from './../models/word';
-import { Entity } from './../models/entity';
+import { Word } from './../../models/word';
+import { Entity } from './../../models/entity';
 
-export class DataRepository {
+export class EntityRepository implements IEntityRepository {
 
     public find(id: string): Promise<Entity> {
         return new Promise((resolve, reject) => {

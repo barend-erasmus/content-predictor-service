@@ -2,6 +2,8 @@
 import express = require("express");
 import * as exphbs from 'express-handlebars';
 import * as path from 'path';
+import * as fs from 'fs';
+import * as swaggerUi from 'swagger-ui-express';
 
 // Imports middleware
 import * as cors from 'cors';
@@ -64,6 +66,8 @@ export class ContentPredictorServiceApi {
     private configureRoutes(app: express.Express) {
         app.post(`/api/predictor/train`, PredictorRouter.train);
         app.post(`/api/predictor/predict`, PredictorRouter.predict);
+
+        app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(JSON.parse(fs.readFileSync(__dirname + '/swagger.json', 'utf-8'))));
     }
 
     private configureErrorHandling(app: express.Express) {
